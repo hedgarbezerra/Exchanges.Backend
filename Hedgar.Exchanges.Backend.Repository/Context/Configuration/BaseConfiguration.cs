@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Hedgar.Exchanges.Backend.Repository.Context.Configuration
 {
-    public abstract class BaseConfiguration<T> : EntityTypeConfiguration<T>
+    internal abstract class BaseConfiguration<T> : EntityTypeConfiguration<T>
          where T : class
     {
         protected BaseConfiguration()

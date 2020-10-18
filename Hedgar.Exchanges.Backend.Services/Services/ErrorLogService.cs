@@ -20,6 +20,7 @@ namespace Hedgar.Exchanges.Backend.Services.Services
 
         public void FazerLog(ErrorLog error)
         {
+
             repo.Inserir(error);
 
             repo.Savechanges();

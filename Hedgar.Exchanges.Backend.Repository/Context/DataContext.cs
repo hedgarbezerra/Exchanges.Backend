@@ -12,7 +12,7 @@ namespace Hedgar.Exchanges.Backend.Repository.Context
     public class DataContext : DbContext
     {
         public DataContext()
-            : base("name=connectionString")
+            : base("name=DbConnection")
         {
 
         }

@@ -6,13 +6,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
-using System.Web.Http.Filters;
+using System.Web.Http.ExceptionHandling;
 
 namespace Hedgar.Exchanges.Backend.API.Models
 {
-    public class ExceptionHandlingFilter : ExceptionFilterAttribute
+    public class GlobalExceptionHandler: ExceptionHandler
     {
-        public override void OnException(HttpActionExecutedContext context)
+        public override void Handle(ExceptionHandlerContext context)
         {
             var runtimeError = context.Exception;
 
@@ -26,20 +26,12 @@ namespace Hedgar.Exchanges.Backend.API.Models
             };
 
             SalvarExcecao(errorLog);
-            
-            base.OnException(context);
+
+            base.Handle(context);
         }
-
-        private static void SalvarExcecao(ErrorLog ex)
+        public override Task HandleAsync(ExceptionHandlerContext context, CancellationToken cancellationToken)
         {
-            var service = new ErrorLogService();
-
-            service.FazerLog(ex);
-        }
-
-        public override Task OnExceptionAsync(HttpActionExecutedContext actionExecutedContext, CancellationToken cancellationToken)
-        {
-            var runtimeError = actionExecutedContext.Exception;
+            var runtimeError = context.Exception;
 
             var errorLog = new ErrorLog
             {
@@ -47,12 +39,19 @@ namespace Hedgar.Exchanges.Backend.API.Models
                 ExceptionMessage = runtimeError.Message,
                 ExceptionSource = runtimeError.StackTrace,
                 ExceptionType = runtimeError.GetType().FullName,
-                ExceptionUrl = actionExecutedContext.Request.RequestUri.OriginalString
+                ExceptionUrl = context.Request.RequestUri.OriginalString
             };
 
             SalvarExcecao(errorLog);
-            return base.OnExceptionAsync(actionExecutedContext, cancellationToken);
+;
+            return base.HandleAsync(context, cancellationToken);
         }
 
+        private void SalvarExcecao(ErrorLog ex)
+        {
+            var service = new ErrorLogService();
+
+            service.FazerLog(ex);
+        }
     }
 }

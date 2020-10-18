@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.ExceptionHandling;
 
 namespace Hedgar.Exchanges.Backend.API
 {
@@ -12,6 +13,8 @@ namespace Hedgar.Exchanges.Backend.API
         {
             // Web API configuration and services
             config.Filters.Add(new ExceptionHandlingFilter());
+            config.Services.Replace(typeof(IExceptionHandler), new GlobalExceptionHandler());
+
             // Web API routes
             config.MapHttpAttributeRoutes();
 

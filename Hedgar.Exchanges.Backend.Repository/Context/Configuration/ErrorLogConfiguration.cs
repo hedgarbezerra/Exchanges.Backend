@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Hedgar.Exchanges.Backend.Repository.Context.Configuration
 {
-    public class ErrorLogConfiguration : BaseConfiguration<ErrorLog>
+    internal class ErrorLogConfiguration : BaseConfiguration<ErrorLog>
     {
         protected override void ConfigurateFields()
         {
@@ -23,7 +23,8 @@ namespace Hedgar.Exchanges.Backend.Repository.Context.Configuration
 
             Property(p => p.ExceptionMessage)
                 .HasColumnName("EXCEPTION_MESSAGE")
-                .HasColumnType("VARCHAR");
+                .HasColumnType("VARCHAR")
+                .HasMaxLength(255);
 
             Property(p => p.ExceptionSource)
                 .HasColumnName("EXCEPTION_SOURCE")
@@ -33,6 +34,12 @@ namespace Hedgar.Exchanges.Backend.Repository.Context.Configuration
                 .HasColumnName("EXCEPTION_TYPE")
                 .HasColumnType("VARCHAR")
                 .HasMaxLength(255);
+
+            Property(p => p.Parameters)
+                .HasColumnName("EXCEPTION_PARAM")
+                .HasColumnType("VARCHAR")
+                .HasMaxLength(255);
+
 
             Property(p => p.DtHrErro)
                 .HasColumnName("EXCEPTION_DTHR")
@@ -51,7 +58,7 @@ namespace Hedgar.Exchanges.Backend.Repository.Context.Configuration
 
         protected override void ConfigurateTableName()
         {
-            ToTable("LOG_ERROR");
+            ToTable("TB_LOG_ERRORS");
         }
     }
 }

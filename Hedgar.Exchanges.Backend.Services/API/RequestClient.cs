@@ -99,7 +99,7 @@ namespace Hedgar.Exchanges.Backend.Services.API
         }
 
 
-        public T Get<T>(string url, List<KeyValuePair<string, object>> param = null)
+        public T Get<T>(string url, List<KeyValuePair<string, string>> param = null)
         {
             var request = new RestRequest(url, Method.GET, DataFormat.Json);
 
@@ -146,7 +146,7 @@ namespace Hedgar.Exchanges.Backend.Services.API
 
             throw new Exception($"Houve um erro {response.StatusCode} ao tentar conectar ao endereço {response.ResponseUri}");
         }
-        public async Task<T> PostAsync<T>(string url, List<KeyValuePair<string, object>> param)
+        public async Task<T> PostAsync<T>(string url, List<KeyValuePair<string, string>> param)
         {
             var request = new RestRequest(url, Method.POST, DataFormat.Json);
 
